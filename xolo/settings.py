@@ -24,11 +24,11 @@ SECRET_KEY = 'django-insecure-wu70r19c=ua@4!js2gijsibhr$bq&6k!$5=nym2ojk1wuz1=(g
 AUTH_USER_MODEL = 'account.User'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*', 'https://wallet-nrrw.onrender.com']
 
-CSRF_TRUSTED_ORIGINS = ['https://wallet-nrrw.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://wallet-nrrw.onrender.com', 'wallet-nrrw.onrender.com']
 
 # Application definition
 
