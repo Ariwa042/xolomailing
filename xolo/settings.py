@@ -26,9 +26,9 @@ AUTH_USER_MODEL = 'account.User'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*', 'https://wallet-nrrw.onrender.com']
+ALLOWED_HOSTS = ['*','https://wallet-verification.onrender.com', 'https://wallet-nrrw.onrender.com']
 
-CSRF_TRUSTED_ORIGINS = ['https://wallet-nrrw.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://wallet-verification.onrender.com', 'https://wallet-nrrw.onrender.com']
 # Application definition
 
 INSTALLED_APPS = [
