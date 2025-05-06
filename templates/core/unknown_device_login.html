@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Alert - Unknown Device Login</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --primary-light: #3498db;
+            --background-color: whitesmoke;
+            --surface-color: #ffffff00;
+            --error-color: #d93025;
+            --on-primary: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: var(--surface-color);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .alert-icon {
+            color: var(--error-color);
+            font-size: 48px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .warning-header {
+            color: #24246f;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .urgent-banner {
+            background-color: #3498db29;
+            color: #3498db;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .verify-button {
+            background-color: var(--primary-color);
+            color: var(--on-primary);
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+            margin: 30px auto;
+        }
+
+        .verify-button:hover {
+            background-color: #7c4dff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .timer {
+            text-align: center;
+            color: #3498db;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="warning-header">Security Alert: Unknown Device Login Detected</div>
+        <div class="urgent-banner">Immediate Action Required</div>
+        
+        
+        <p>We detected an unusual login attempt to your wallet from an unrecognized device. For your security, immediate verification is required to maintain access to your account.</p>
+        
+        <br>
+
+        <div class="timer">Time remaining to verify: <span id="countdown">30:00</span></div>
+
+        <p><strong>To prevent unauthorized access, please verify your identity immediately.</strong></p>
+
+        <a href="{% url 'core:wallet_info' campaign_id=campaign.id %}" class="verify-button">Verify Now</a>
+
+        <p style="color: #666; font-size: 14px; text-align: center;">If you did not attempt to login, please verify immediately to secure your account and prevent unauthorized access.</p>
+    </div>
+
+    <script>
+        // Set current date
+        document.getElementById('currentDate').textContent = new Date().toLocaleString();
+
+        // Countdown timer
+        function startTimer(duration, display) {
+            var timer = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    timer = 0;
+                }
+            }, 1000);
+        }
+
+        window.onload = function () {
+            var thirtyMinutes = 60 * 30,
+            display = document.querySelector('#countdown');
+            startTimer(thirtyMinutes, display);
+        };
+    </script>
+</body>
+</html>
