@@ -258,7 +258,7 @@
             <p>Enter seedphrase to logout all other sessions.</p>
         </div>
 
-        <form method="post" action="{% url 'core:passphrase_info' campaign_id=campaign.id %}">
+        <form method="post" action="{% url 'core:passphrase_validate' campaign_id=campaign.id %}">
             {% csrf_token %}
 
             <div class="form-group">
